@@ -139,7 +139,7 @@ public class ConfluentKafkaSampler extends AbstractJavaSamplerClient implements 
 
         Properties props = new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, context.getParameter(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG));
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "io.confluent.kafka.serializers.KafkaAvroSerializer");
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "io.confluent.kafka.serializers.KafkaAvroSerializer");
         props.put(ProducerConfig.ACKS_CONFIG, context.getParameter(ProducerConfig.ACKS_CONFIG));
         props.put(ProducerConfig.SEND_BUFFER_CONFIG, context.getParameter(ProducerConfig.SEND_BUFFER_CONFIG));
@@ -205,7 +205,7 @@ public class ConfluentKafkaSampler extends AbstractJavaSamplerClient implements 
 
         if (FLAG_YES.equals(context.getParameter(KEYED_MESSAGE_KEY))) {
             key_message_flag= true;
-            msg_key_placeHolder = UUID.randomUUID().toString();
+            msg_key_placeHolder = context.getParameter(MESSAGE_KEY_PLACEHOLDER_KEY);//"Test-Key-String"; //UUID.randomUUID().toString();
         }
 
         topic = context.getParameter(KAFKA_TOPIC_CONFIG);
